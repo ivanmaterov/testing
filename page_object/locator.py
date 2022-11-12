@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class XpathLocator:
+class XPathLocator:
     """Base locator for looking for elements in page."""
 
     def __init__(self, query: str):
@@ -16,6 +16,6 @@ class XpathLocator:
     def __repr__(self):
         return f"Locator<By `{self.by}`: Query `{self.query}`>"
 
-    def __add__(self, other: "XpathLocator"):
+    def __add__(self, other: "XPathLocator"):
         """Provide ability to implement nested XPath locators"""
-        return XpathLocator(query=self.query + other.query)
+        return XPathLocator(query=self.query + other.query)

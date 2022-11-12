@@ -25,7 +25,7 @@ class SeleniumConfigurationPlugin:
         }
         chrome_options.add_experimental_option("prefs", preferences)
         return chrome_options
-    
+
     @pytest.fixture
     def webdriver(
         self,

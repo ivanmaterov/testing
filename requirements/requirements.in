@@ -4,6 +4,8 @@ pip-tools
 pytest
 # To prettify pytest output
 pytest-sugar
+# For autoloading env variables
+pytest-dotenv
 # framework for interaction with browsers
 selenium
 # plugin for pytest

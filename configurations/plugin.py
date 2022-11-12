@@ -1,5 +1,6 @@
-from _pytest.config import Config
 import pytest
+from _pytest.config import Config
+
 from .selenium import SeleniumConfigurationPlugin
 
 

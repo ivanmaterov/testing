@@ -1,4 +1,9 @@
+import os
+import time
+
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webelement import WebElement
 
 from . import locator
 
@@ -6,7 +11,7 @@ from . import locator
 class Element:
     """Base representation of element on page."""
 
-    def __init__(self, web_view, locator: locator.Locator):
+    def __init__(self, web_view, locator: locator.XPathLocator):
         """Init page element."""
         self.web_view = web_view
         self.locator: locator.Locator = locator
@@ -54,6 +59,23 @@ class Element:
             while self.get_value() != "":
                 self.send_keys(Keys.BACK_SPACE)
 
+    def click(self, only_visible=True, wait_until_clickable=True, sleep_time: float = 0.0):
+        """Click on element."""
+        time.sleep(sleep_time)
+        # Try except block help to overcome error `Element is not attached to page` error.
+        attempts = 0
+        max_attempts = int(os.environ.get("MAX_RETRY_ATTEMPTS", 3))
+        while True:
+            try:
+                attempts += 1
+                if wait_until_clickable:
+                    self.wait_until_clickable()
+                self.get_element(only_visible=only_visible).click()
+                break
+            except StaleElementReferenceException:
+                if attempts >= max_attempts:
+                    raise StaleElementReferenceException
+
     def get_text(self, only_visible=True) -> str:
         """Get text from element."""
         return self.get_element(only_visible=only_visible).text
@@ -61,3 +83,14 @@ class Element:
     def get_attribute(self, attribute_name: str, only_visible=True) -> str:
         """Get value of attr from element."""
         return self.get_element(only_visible=only_visible).get_attribute(name=attribute_name)
+
+    def get_element(self, only_visible=True) -> WebElement:
+        """Get selenium instance(WebElement) of element."""
+        return self.web_view._get_element(locator=self.locator, only_visible=only_visible)
+
+    def send_keys(self, keys: str, only_visible=True):
+        self.get_element(only_visible=only_visible).send_keys(*keys)
+
+    def get_value(self, only_visible=True):
+        """Get value of value attr from element."""
+        return self.get_attribute(attribute_name="value", only_visible=only_visible)

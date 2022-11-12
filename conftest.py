@@ -1,8 +1,8 @@
-from _pytest.config.argparsing import Parser
-from selenium.webdriver.remote.webdriver import WebDriver
-import pytest
 import os
 
+import pytest
+from _pytest.config.argparsing import Parser
+from selenium.webdriver.remote.webdriver import WebDriver
 
 pytest_plugins = (
     'configurations.plugin'
@@ -11,7 +11,6 @@ pytest_plugins = (
 
 @pytest.fixture
 def user_webdriver(webdriver: WebDriver) -> WebDriver:
-    import ipdb; ipdb.set_trace()
     webdriver.get(os.environ['BASE_URL'])
     return webdriver
 

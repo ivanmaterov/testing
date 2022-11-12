@@ -1,6 +1,8 @@
-from page_object.web_view import WebView
 import os
+
 from selenium.webdriver.remote.webdriver import WebDriver
+
+from page_object.web_view import WebView
 
 
 class Page(WebView):
