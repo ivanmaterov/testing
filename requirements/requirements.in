@@ -1,0 +1,15 @@
+# for managing python dependencies
+pip-tools
+# framework for autotesing
+pytest
+# To prettify pytest output
+pytest-sugar
+# framework for interaction with browsers
+selenium
+# plugin for pytest
+pytest-selenium
+# linters
+flake8
+isort
+# debugging
+ipdb
